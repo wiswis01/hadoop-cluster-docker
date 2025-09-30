@@ -98,16 +98,6 @@ RUN mkdir -p /hdfs/namenode /hdfs/datanode && \
     echo "HDFS directories created: /hdfs/namenode, /hdfs/datanode"
 
 # =============================================================================
-# Service Port Expositions
-# =============================================================================
-# Hadoop Web UIs and service ports
-EXPOSE 9870   # NameNode Web UI
-EXPOSE 9864   # DataNode Web UI  
-EXPOSE 8088   # ResourceManager Web UI (YARN)
-EXPOSE 8042   # NodeManager Web UI
-EXPOSE 22     # SSH access
-
-# =============================================================================
 # Container Runtime Configuration
 # =============================================================================
 # Switch to non-root user for security
