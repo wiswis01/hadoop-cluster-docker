@@ -1,0 +1,11 @@
+# Preuve 1: Services en fonctionnement
+docker-compose ps
+
+# Preuve 2: HDFS opérationnel  
+docker exec namenode hdfs dfsadmin -report
+
+# Preuve 3: Fichiers dans HDFS
+docker exec namenode hdfs dfs -ls -R /
+
+# Preuve 4: Réplication effective
+docker exec namenode hdfs fsck / -blocks
