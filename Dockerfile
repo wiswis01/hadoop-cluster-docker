@@ -1,24 +1,28 @@
 FROM mzinee/hadoop-cluster:latest
 
-# Mise à jour et installation des outils supplémentaires
-RUN apt-get update && apt-get install -y \
-    vim \
-    curl \
-    wget \
-    net-tools \
-    && apt-get clean
+# Métadonnées pour l'examen
+LABEL projet="Examen Hadoop Docker"
+LABEL version="1.0"
+LABEL auteur="Votre Nom"
 
-# Configuration Hadoop personnalisée
-COPY core-site.xml $HADOOP_HOME/etc/hadoop/core-site.xml
-COPY hdfs-site.xml $HADOOP_HOME/etc/hadoop/hdfs-site.xml
-COPY mapred-site.xml $HADOOP_HOME/etc/hadoop/mapred-site.xml
-COPY yarn-site.xml $HADOOP_HOME/etc/hadoop/yarn-site.xml
+# Configuration Hadoop
+ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
+ENV HDFS_NAMENODE_USER root
+ENV HDFS_DATANODE_USER root  
+ENV YARN_RESOURCEMANAGER_USER root
 
-# Script de démarrage personnalisé
-COPY start-hadoop.sh /usr/local/bin/start-hadoop.sh
-RUN chmod +x /usr/local/bin/start-hadoop.sh
+# Copie des configurations
+COPY config/core-site.xml $HADOOP_CONF_DIR/
+COPY config/hdfs-site.xml $HADOOP_CONF_DIR/
+COPY config/mapred-site.xml $HADOOP_CONF_DIR/
+COPY config/yarn-site.xml $HADOOP_CONF_DIR/
 
-# Exposition des ports
-EXPOSE 9870 8088 9864 8042 9000
+# Scripts d'initialisation
+COPY scripts/init-hadoop.sh /usr/local/bin/
+COPY scripts/hdfs-operations.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/*.sh
 
-CMD ["/usr/local/bin/start-hadoop.sh"]
+# Ports Hadoop
+EXPOSE 9870 8088 9000 9864 8042
+
+CMD ["/usr/local/bin/init-hadoop.sh"]
