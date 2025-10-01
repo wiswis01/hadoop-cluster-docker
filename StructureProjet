@@ -1,0 +1,12 @@
+hadoop-exam/
+├── ✅ Dockerfile
+├── ✅ docker-compose.yml
+├── 📁 config/
+│   ├── ✅ core-site.xml
+│   └── ✅ hdfs-site.xml
+├── 📁 scripts/
+│   ├── ✅ hdfs-operations.sh
+│   ├── ✅ datanode-verification.sh
+│   └── ✅ full-demo.sh
+└── 📁 data/
+    └── ✅ (généré automatiquement)
