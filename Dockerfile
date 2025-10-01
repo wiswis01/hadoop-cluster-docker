@@ -3,7 +3,7 @@ FROM mzinee/hadoop-cluster:latest
 # Métadonnées pour l'examen
 LABEL projet="Examen Hadoop Docker"
 LABEL version="1.0"
-LABEL auteur="Votre Nom"
+LABEL auteur="wiswis01"
 
 # Configuration Hadoop
 ENV HADOOP_CONF_DIR /usr/local/hadoop/etc/hadoop
