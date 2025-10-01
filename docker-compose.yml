@@ -1,0 +1,56 @@
+version: "3.9"
+services:
+  namenode:
+    build: .
+    image: wis01/hadoop-exam:1.0
+    container_name: namenode
+    hostname: namenode
+    ports:
+      - "9870:9870"  # HDFS UI
+      - "8088:8088"  # YARN UI
+      - "9000:9000"  # HDFS Service
+    environment:
+      - CLUSTER_NAME=examCluster
+    volumes:
+      - namenode_data:/hadoop/dfs/name
+      - ./data:/data
+
+  datanode1:
+    image: wis01/hadoop-exam:1.0
+    container_name: datanode1
+    hostname: datanode1
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    volumes:
+      - datanode1_data:/hadoop/dfs/data
+      - ./data:/data
+    depends_on:
+      - namenode
+
+  datanode2:
+    image: wis01/hadoop-exam:1.0
+    container_name: datanode2
+    hostname: datanode2
+    environment:
+      - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    volumes:
+      - datanode2_data:/hadoop/dfs/data
+      - ./data:/data
+    depends_on:
+      - namenode
+
+  resourcemanager:
+    image: wis01/hadoop-exam:1.0
+    container_name: resourcemanager
+    hostname: resourcemanager
+    ports:
+      - "8042:8042"
+    environment:
+      - YARN_CONF_yarn_resourcemanager_hostname=resourcemanager
+    depends_on:
+      - namenode
+
+volumes:
+  namenode_data:
+  datanode1_data:
+  datanode2_data:
